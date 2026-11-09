@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Etkileşimli IPv4 CIDR ve subnet hesaplayıcı">
+    <title>IPv4 CIDR Laboratuvarı</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div class="eyebrow">AĞLARA GİRİŞ · ETKİLEŞİMLİ LABORATUVAR</div>
+        <h1>IPv4 & CIDR Hesaplayıcı</h1>
+        <p>IP adresini ve ağ ön ekini değiştirin; ağ, host ve broadcast bilgilerini anında görün.</p>
+      </header>
+      <section class="panel" aria-labelledby="input-title">
+        <h2 id="input-title">Ağ bilgileri</h2>
+        <div class="controls">
+          <label>IPv4 adresi
+            <input id="ip" value="192.168.1.75" inputmode="decimal" autocomplete="off" spellcheck="false">
+          </label>
+          <label>CIDR ön eki 
+            <span id="prefixLabel">/26</span>
+            <input id="prefix" type="range" min="0" max="32" value="26">
+            <small>/0 ile /32 arası</small>
+          </label>
+          <label>Ön ek (sayısal)
+            <input id="prefixNumber" type="number" min="0" max="32" value="26">
+          </label>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+        <div class="examples">
+          <span>Örnekler:</span>
+          <button type="button" data-ip="192.168.1.75" data-prefix="26">/26</button>
+          <button type="button" data-ip="10.0.5.18" data-prefix="24">/24</button>
+          <button type="button" data-ip="172.16.3.10" data-prefix="30">/30</button>
+          <button type="button" data-ip="192.168.1.4" data-prefix="31">/31</button></div>
+      </section>
+      <section class="results" aria-live="polite">
+        <article class="metric"><span>Ağ adresi</span><strong id="network">—</strong></article>
+        <article class="metric"><span>Broadcast adresi</span><strong id="broadcast">—</strong></article>
+        <article class="metric"><span>Alt ağ maskesi</span><strong id="mask">—</strong></article>
+        <article class="metric"><span>Kullanılabilir host</span><strong id="usable">—</strong></article>
+      </section>
+      <section class="panel">
+        <h2>Adres aralığı ve hesaplama</h2>
+        <div class="details">
+          <div><span>İlk kullanılabilir adres</span><b id="first">—</b></div>
+          <div><span>Son kullanılabilir adres</span><b id="last">—</b></div>
+          <div><span>Toplam IPv4 adresi</span><b id="total">—</b></div>
+          <div><span>Wildcard mask</span><b id="wildcard">—</b></div>
+          <div><span>Ağ bitleri / host bitleri</span><b id="bits">—</b></div>
+          <div><span>IP türü</span><b id="type">—</b></div>
+        </div>
+        <div class="bits-title">
+          <h3>32 bit üzerinde ağ / host ayrımı</h3>
+          <span>
+            <i class="swatch network-swatch"></i> Ağ 
+            <i class="swatch host-swatch"></i> Host
+          </span>
+        </div>
+        <div id="bitStrip" class="bit-strip" aria-label="IPv4 adresinin ikili gösterimi"></div>
+        <p class="mono" id="binary">—</p>
+        <p class="explain" id="explain"></p>
+      </section>
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Alt ağları listele</h2>
+            <p>Seçili ağı daha küçük, eşit büyüklükteki alt ağlara bölün.</p>
+          </div>
+          <label>Yeni CIDR <select id="childPrefix"></select></label>
+        </div>
+        <p id="subnetSummary" class="subtle"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ağ</th>
+                <th>İlk host</th>
+                <th>Son host</th>
+                <th>Broadcast</th>
+              </tr>
+            </thead>
+            <tbody id="subnetRows"></tbody>
+          </table>
+        </div>
+        <p id="limitNote" class="subtle"></p>
+      </section>
+      <footer>
+        Hesaplamalar tarayıcıda gerçekleştirilir · Sunucu veya veritabanı gerekmez.
+      </footer>
+    </main>
+  </body>
+
+</html>
